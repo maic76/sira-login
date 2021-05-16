@@ -32,29 +32,25 @@ public class Usuario implements UserDetails {
             generator = "usuario_sequence"
     )
     private Long id;
-    private String name;
-    private String username;
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)
     private UsuarioRol usuarioRol;
-    private Boolean locked;
-    private Boolean enabled;
+    private Boolean locked = false;
+    private Boolean enabled = false;
 
-    public Usuario(String name,
-                   String username,
+    public Usuario(String firstName,
+                   String lastName,
                    String email,
                    String password,
-                   UsuarioRol usuarioRol,
-                   Boolean locked,
-                   Boolean enabled) {
-        this.name = name;
-        this.username = username;
+                   UsuarioRol usuarioRol) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.usuarioRol = usuarioRol;
-        this.locked = locked;
-        this.enabled = enabled;
     }
 
     @Override
@@ -69,9 +65,17 @@ public class Usuario implements UserDetails {
         return password;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
     @Override
     public String getUsername() {
-        return username;
+        return email;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     @Override
