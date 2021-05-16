@@ -57,4 +57,8 @@ public class UsuarioService implements UserDetailsService {
 
         return "it works";
     }
+
+    public int enableUsuario(String email) {
+        return usuarioRepository.enableUsuario(email);
+    }
 }
