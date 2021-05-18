@@ -19,7 +19,7 @@ public class RegistrationService {
     private final EmailValidator emailValidator;
     private final ConfirmationTokenService confirmationTokenService;
 
-    public String register(RegistrationRequest request) {
+    public String register(RegistrationRequest request) {  //acá iría el tipo de rol cuando se agreguen Admin y Seguimiento
 
         boolean isValidEmail = emailValidator.test(request.getEmail()); // validamos el mail
         if(!isValidEmail){

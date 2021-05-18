@@ -44,6 +44,7 @@ public class UsuarioService implements UserDetailsService {
        usuarioRepository.save(usuario);
 
        String token = UUID.randomUUID().toString();
+
         ConfirmationToken confirmationToken = new ConfirmationToken(
                token,
                 LocalDateTime.now(),
@@ -51,11 +52,11 @@ public class UsuarioService implements UserDetailsService {
                 usuario
         );
 
-        confirmationTokenService.saveConfirmationToken(confirmationToken);
+        confirmationTokenService.saveConfirmationToken(confirmationToken);  //genera y guarda el token de confirmación
 
         // TODO: ENVIAR EMAIL
 
-        return "it works";
+        return token;
     }
 
     public int enableUsuario(String email) {
