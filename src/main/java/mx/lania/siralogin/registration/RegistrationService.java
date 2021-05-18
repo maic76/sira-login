@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import mx.lania.siralogin.appuser.Usuario;
 import mx.lania.siralogin.appuser.UsuarioRol;
 import mx.lania.siralogin.appuser.UsuarioService;
+import mx.lania.siralogin.email.EmailSender;
 import mx.lania.siralogin.registration.token.ConfirmationToken;
 import mx.lania.siralogin.registration.token.ConfirmationTokenService;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ public class RegistrationService {
     private final UsuarioService usuarioService;
     private final EmailValidator emailValidator;
     private final ConfirmationTokenService confirmationTokenService;
+    private final EmailSender emailSender;
 
     public String register(RegistrationRequest request) {  //acá iría el tipo de rol cuando se agreguen Admin y Seguimiento
 
@@ -26,7 +28,7 @@ public class RegistrationService {
             throw new IllegalStateException("Email no válido");
         }
 
-        return usuarioService.signUpUser(
+        String token = usuarioService.signUpUser(
                 new Usuario(
                         request.getFirstName(),
                         request.getLastName(),
@@ -35,6 +37,9 @@ public class RegistrationService {
                         UsuarioRol.USER
                 )
         );
+
+        //emailSender.send(request.getEmail(),buildEmail(request.getFirstName()));
+        return token;
     }
 
     @Transactional
