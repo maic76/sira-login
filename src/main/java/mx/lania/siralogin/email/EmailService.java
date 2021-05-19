@@ -30,6 +30,7 @@ public class EmailService implements EmailSender {
                 helper.setTo(to);
                 helper.setSubject("Confirma tu correo");
                 helper.setFrom("sira@lania.edu.mx");
+                mailSender.send(mimeMessage);
             }catch (MessagingException e){
                 LOGGER.error("Falló enviar email", e);
                 throw new IllegalStateException("Falló al enviar el email");
