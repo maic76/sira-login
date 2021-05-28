@@ -2,6 +2,7 @@ package mx.lania.siralogin.security.config;
 
 import lombok.AllArgsConstructor;
 import mx.lania.siralogin.appuser.UsuarioService;
+import mx.lania.siralogin.security.filter.JWTAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -9,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
@@ -23,15 +25,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilter(new JWTAuthenticationFilter(authenticationManager()))        //configuramos el filtro de logueo
                 .authorizeRequests()
                 .antMatchers("/","index","/css/*","/js/*","/images/*","/fonts/*","/scss/*").permitAll()
-                    .antMatchers("/api/v*/registration/**")
-                    .permitAll()
+                .antMatchers("/api/v*/registration/**")
+                .permitAll()
                 .anyRequest()
-                .authenticated().and()
-                .formLogin()
-                .loginPage("/login").permitAll()
-                .defaultSuccessUrl("/convocatorias",true);
+                .authenticated();
+               // .formLogin()
+               // .loginPage("/login").permitAll()
+               // .defaultSuccessUrl("/convocatorias",true);
     }
 
     @Override
