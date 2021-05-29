@@ -3,6 +3,7 @@ package mx.lania.siralogin.security.config;
 import lombok.AllArgsConstructor;
 import mx.lania.siralogin.appuser.UsuarioService;
 import mx.lania.siralogin.security.filter.JWTAuthenticationFilter;
+import mx.lania.siralogin.security.filter.JWTAuthorizationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -28,6 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))        //configuramos el filtro de logueo
+                .addFilterAfter(new JWTAuthorizationFilter(authenticationManager()),JWTAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/","index","/css/*","/js/*","/images/*","/fonts/*","/scss/*").permitAll()
                 .antMatchers("/api/v*/registration/**")
