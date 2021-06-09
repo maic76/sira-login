@@ -32,25 +32,47 @@ public class Usuario implements UserDetails {
             generator = "usuario_sequence"
     )
     private Long id;
-    private String firstName;
-    private String lastName;
+    private String nombre;
+    private String apellido;
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)
     private UsuarioRol usuarioRol;
+    private String escuela;
+    private String noWhatsapp;
     private Boolean locked = false;
     private Boolean enabled = false;
 
-    public Usuario(String firstName,
-                   String lastName,
+    public Usuario(String nombre,
+                   String apellido,
                    String email,
                    String password,
-                   UsuarioRol usuarioRol) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+                   UsuarioRol usuarioRol,
+                   String escuela,
+                   String noWhatsapp) {
+        this.nombre = nombre;
+        this.apellido = apellido;
         this.email = email;
         this.password = password;
         this.usuarioRol = usuarioRol;
+        this.escuela = escuela;
+        this.noWhatsapp = noWhatsapp;
+    }
+
+    public String getEscuela() {
+        return escuela;
+    }
+
+    public void setEscuela(String escuela) {
+        this.escuela = escuela;
+    }
+
+    public String getNoWhatsapp() {
+        return noWhatsapp;
+    }
+
+    public void setNoWhatsapp(String noWhatsapp) {
+        this.noWhatsapp = noWhatsapp;
     }
 
     @Override
@@ -65,8 +87,8 @@ public class Usuario implements UserDetails {
         return password;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getNombre() {
+        return nombre;
     }
 
     @Override
@@ -74,8 +96,8 @@ public class Usuario implements UserDetails {
         return email;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getApellido() {
+        return apellido;
     }
 
     @Override

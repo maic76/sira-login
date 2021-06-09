@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAfter(new JWTAuthorizationFilter(authenticationManager()),JWTAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/","index","/css/*","/js/*","/images/*","/fonts/*","/scss/*").permitAll()
-                .antMatchers("/api/v*/registration/**")
+                .antMatchers("/sira/usuarios/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated();

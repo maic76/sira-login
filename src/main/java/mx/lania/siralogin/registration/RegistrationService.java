@@ -30,15 +30,17 @@ public class RegistrationService {
 
         String token = usuarioService.signUpUser(
                 new Usuario(
-                        request.getFirstName(),
-                        request.getLastName(),
+                        request.getNombre(),
+                        request.getApellido(),
                         request.getEmail(),
                         request.getPassword(),
-                        UsuarioRol.USER
+                        UsuarioRol.USER,
+                        request.getEscuela(),
+                        request.getNoWhatsapp()
                 )
         );
-        String link = "http://localhost:8080/api/v1/registration/confirm?token="+token;
-        emailSender.send(request.getEmail(),buildEmail(request.getFirstName(),link));
+        String link = "http://localhost:8081/sira/usuarios/confirm?token="+token;
+        emailSender.send(request.getEmail(),buildEmail(request.getNombre(),link));
         return token;
     }
 
