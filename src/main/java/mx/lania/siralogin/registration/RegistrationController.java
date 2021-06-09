@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping(path = "sira/usuarios")
 @AllArgsConstructor
 public class RegistrationController {
