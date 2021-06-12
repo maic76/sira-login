@@ -1,10 +1,14 @@
 package mx.lania.siralogin.registration;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+
 @RestController
-@CrossOrigin(origins = "http://localhost:8080")
+/*@CrossOrigin(origins = "http://localhost:8080")*/
 @RequestMapping(path = "sira/usuarios")
 @AllArgsConstructor
 public class RegistrationController {
@@ -17,7 +21,10 @@ public class RegistrationController {
     }
 
     @GetMapping(path = "confirm")
-    public String confirm(@RequestParam("token") String token){
-        return registrationService.confirmToken(token);
+    public ResponseEntity<Void> confirm(@RequestParam("token") String token){
+        if(registrationService.confirmToken(token).contains("confirmed")){
+            return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("http://localhost:8080/confirmado")).build();
+        }
+        return null;
     }
 }
