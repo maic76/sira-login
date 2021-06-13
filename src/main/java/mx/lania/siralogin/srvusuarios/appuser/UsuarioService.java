@@ -1,8 +1,8 @@
-package mx.lania.siralogin.appuser;
+package mx.lania.siralogin.srvusuarios.appuser;
 
 import lombok.AllArgsConstructor;
-import mx.lania.siralogin.registration.token.ConfirmationToken;
-import mx.lania.siralogin.registration.token.ConfirmationTokenService;
+import mx.lania.siralogin.srvusuarios.registration.token.ConfirmationToken;
+import mx.lania.siralogin.srvusuarios.registration.token.ConfirmationTokenService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

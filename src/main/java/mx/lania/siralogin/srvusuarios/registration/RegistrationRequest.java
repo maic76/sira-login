@@ -1,4 +1,4 @@
-package mx.lania.siralogin.registration;
+package mx.lania.siralogin.srvusuarios.registration;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

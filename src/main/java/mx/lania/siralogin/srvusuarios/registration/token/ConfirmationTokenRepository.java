@@ -1,4 +1,4 @@
-package mx.lania.siralogin.registration.token;
+package mx.lania.siralogin.srvusuarios.registration.token;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

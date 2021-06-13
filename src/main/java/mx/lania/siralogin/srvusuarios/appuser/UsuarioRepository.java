@@ -1,4 +1,4 @@
-package mx.lania.siralogin.appuser;
+package mx.lania.siralogin.srvusuarios.appuser;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

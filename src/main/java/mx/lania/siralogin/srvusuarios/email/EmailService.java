@@ -1,4 +1,4 @@
-package mx.lania.siralogin.email;
+package mx.lania.siralogin.srvusuarios.email;
 
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;

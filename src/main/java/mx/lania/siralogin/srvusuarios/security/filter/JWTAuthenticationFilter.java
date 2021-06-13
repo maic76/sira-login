@@ -1,9 +1,9 @@
-package mx.lania.siralogin.security.filter;
+package mx.lania.siralogin.srvusuarios.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import mx.lania.siralogin.appuser.Usuario;
+import mx.lania.siralogin.srvusuarios.appuser.Usuario;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

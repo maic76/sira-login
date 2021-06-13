@@ -1,4 +1,4 @@
-package mx.lania.siralogin.registration.token;
+package mx.lania.siralogin.srvusuarios.registration.token;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package mx.lania.siralogin.registration;
+package mx.lania.siralogin.srvusuarios.registration;
 
 import org.springframework.stereotype.Service;
 

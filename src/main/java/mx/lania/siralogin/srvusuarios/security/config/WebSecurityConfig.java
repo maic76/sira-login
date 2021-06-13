@@ -1,10 +1,9 @@
-package mx.lania.siralogin.security.config;
+package mx.lania.siralogin.srvusuarios.security.config;
 
 import lombok.AllArgsConstructor;
-import mx.lania.siralogin.appuser.UsuarioService;
-import mx.lania.siralogin.security.filter.CorsFilter;
-import mx.lania.siralogin.security.filter.JWTAuthenticationFilter;
-import mx.lania.siralogin.security.filter.JWTAuthorizationFilter;
+import mx.lania.siralogin.srvusuarios.appuser.UsuarioService;
+import mx.lania.siralogin.srvusuarios.security.filter.JWTAuthenticationFilter;
+import mx.lania.siralogin.srvusuarios.security.filter.JWTAuthorizationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;

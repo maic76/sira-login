@@ -1,4 +1,4 @@
-package mx.lania.siralogin.appuser;
+package mx.lania.siralogin.srvusuarios.appuser;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

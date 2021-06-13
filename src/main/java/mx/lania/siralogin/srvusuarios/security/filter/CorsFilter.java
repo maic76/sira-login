@@ -1,4 +1,4 @@
-package mx.lania.siralogin.security.filter;
+package mx.lania.siralogin.srvusuarios.security.filter;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

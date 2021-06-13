@@ -1,12 +1,12 @@
-package mx.lania.siralogin.registration;
+package mx.lania.siralogin.srvusuarios.registration;
 
 import lombok.AllArgsConstructor;
-import mx.lania.siralogin.appuser.Usuario;
-import mx.lania.siralogin.appuser.UsuarioRol;
-import mx.lania.siralogin.appuser.UsuarioService;
-import mx.lania.siralogin.email.EmailSender;
-import mx.lania.siralogin.registration.token.ConfirmationToken;
-import mx.lania.siralogin.registration.token.ConfirmationTokenService;
+import mx.lania.siralogin.srvusuarios.appuser.Usuario;
+import mx.lania.siralogin.srvusuarios.appuser.UsuarioRol;
+import mx.lania.siralogin.srvusuarios.appuser.UsuarioService;
+import mx.lania.siralogin.srvusuarios.email.EmailSender;
+import mx.lania.siralogin.srvusuarios.registration.token.ConfirmationToken;
+import mx.lania.siralogin.srvusuarios.registration.token.ConfirmationTokenService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

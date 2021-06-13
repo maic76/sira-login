@@ -1,4 +1,4 @@
-package mx.lania.siralogin.security;
+package mx.lania.siralogin.srvusuarios.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

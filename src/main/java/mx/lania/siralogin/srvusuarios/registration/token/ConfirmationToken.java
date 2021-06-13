@@ -1,9 +1,9 @@
-package mx.lania.siralogin.registration.token;
+package mx.lania.siralogin.srvusuarios.registration.token;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import mx.lania.siralogin.appuser.Usuario;
+import mx.lania.siralogin.srvusuarios.appuser.Usuario;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

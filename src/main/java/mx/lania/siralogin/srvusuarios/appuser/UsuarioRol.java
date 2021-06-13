@@ -1,4 +1,4 @@
-package mx.lania.siralogin.appuser;
+package mx.lania.siralogin.srvusuarios.appuser;
 
 public enum UsuarioRol {
     USER,

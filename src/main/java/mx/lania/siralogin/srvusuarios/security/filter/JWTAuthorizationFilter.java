@@ -1,4 +1,4 @@
-package mx.lania.siralogin.security.filter;
+package mx.lania.siralogin.srvusuarios.security.filter;
 
 import com.google.common.base.Strings;
 import io.jsonwebtoken.Claims;
