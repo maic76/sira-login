@@ -19,17 +19,16 @@ spring:
     show-sql: true
 
   mail:
-    host: localhost
-    port: 25
-    username:
-    password:
+    host: smtp.mailtrap.io
+    port: 2525
+    username: 7d65ed5b483ad6
+    password: d8ad5dd73f0af5
 
     properties:
       mail:
         smtp:
-          ssl:
-            trust: "*"
-          auth: false
+          ssl: no
+          auth: PLAIN
           starttls:
             enable: true
           connectiontimeout: 5000

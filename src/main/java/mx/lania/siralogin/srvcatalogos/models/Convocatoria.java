@@ -35,7 +35,8 @@ public class Convocatoria implements Serializable {
     @Column(name = "fecha_termino")
     @Temporal(TemporalType.DATE)
     private Date fechaTermino;
-    private Long idProgEducativo;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ProgramaEducativo programaEducativo;
     private int cantAspirantes;
     @Column(name = "created_at")
     @Temporal(TemporalType.DATE)
@@ -88,12 +89,12 @@ public class Convocatoria implements Serializable {
         this.fechaTermino = fechaTermino;
     }
 
-    public Long getIdProgEducativo() {
-        return idProgEducativo;
+    public ProgramaEducativo getProgramaEducativo() {
+        return programaEducativo;
     }
 
-    public void setIdProgEducativo(Long idProgEducativo) {
-        this.idProgEducativo = idProgEducativo;
+    public void setProgramaEducativo(ProgramaEducativo programaEducativo) {
+        this.programaEducativo = programaEducativo;
     }
 
     public int getCantAspirantes() {

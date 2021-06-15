@@ -7,7 +7,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -40,6 +42,13 @@ public class ProgramaEducativo implements Serializable {
     @Column(name = "deleted_at")
     @Temporal(TemporalType.DATE)
     private Date deletedAt;
+
+    @OneToMany(mappedBy = "programaEducativo",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Convocatoria> convocatorias;
+
+    public ProgramaEducativo() {
+        convocatorias = new ArrayList<Convocatoria>();
+    }
 
     public Long getId() {
         return id;
@@ -103,5 +112,17 @@ public class ProgramaEducativo implements Serializable {
 
     public void setDeletedAt(Date deletedAt) {
         this.deletedAt = deletedAt;
+    }
+
+    public List<Convocatoria> getConvocatorias() {
+        return convocatorias;
+    }
+
+    public void setConvocatorias(List<Convocatoria> convocatorias) {
+        this.convocatorias = convocatorias;
+    }
+
+    public void addConvocatoria(Convocatoria convocatoria){
+        this.convocatorias.add(convocatoria);
     }
 }
