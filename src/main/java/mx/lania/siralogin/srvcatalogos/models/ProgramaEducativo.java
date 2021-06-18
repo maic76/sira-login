@@ -26,7 +26,7 @@ public class ProgramaEducativo implements Serializable {
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "prog_eduativos_sequence"
+            generator = "prog_educativos_sequence"
     )
     private Long id;
     private String nombre;
