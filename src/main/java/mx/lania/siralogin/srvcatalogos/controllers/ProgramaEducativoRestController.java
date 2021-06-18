@@ -43,6 +43,7 @@ public class ProgramaEducativoRestController {
         programaEducativoActual.setUpdatedAt(new Date());
         programaEducativoActual.setDescripcion(programaEducativo.getDescripcion());
         programaEducativoActual.setVigencia(programaEducativo.getVigencia());
+        programaEducativoActual.setAbreviatura(programaEducativo.getAbreviatura());
        return  programaEducativoService.save(programaEducativoActual);
 
     }

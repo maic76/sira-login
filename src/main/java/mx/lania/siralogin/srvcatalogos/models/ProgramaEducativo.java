@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode
-@NoArgsConstructor
+//@NoArgsConstructor
 @Entity (name = "prog_educativos")
 public class ProgramaEducativo implements Serializable {
 
@@ -42,6 +42,15 @@ public class ProgramaEducativo implements Serializable {
     @Column(name = "deleted_at")
     @Temporal(TemporalType.DATE)
     private Date deletedAt;
+    private String abreviatura;
+
+    public String getAbreviatura() {
+        return abreviatura;
+    }
+
+    public void setAbreviatura(String abreviatura) {
+        this.abreviatura = abreviatura;
+    }
 
     @OneToMany(mappedBy = "programaEducativo",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Convocatoria> convocatorias;
