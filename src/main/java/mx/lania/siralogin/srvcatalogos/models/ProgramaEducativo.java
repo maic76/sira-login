@@ -1,5 +1,6 @@
 package mx.lania.siralogin.srvcatalogos.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -123,6 +124,7 @@ public class ProgramaEducativo implements Serializable {
         this.deletedAt = deletedAt;
     }
 
+    @JsonManagedReference
     public List<Convocatoria> getConvocatorias() {
         return convocatorias;
     }

@@ -1,5 +1,6 @@
 package mx.lania.siralogin.srvcatalogos.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -89,6 +90,7 @@ public class Convocatoria implements Serializable {
         this.fechaTermino = fechaTermino;
     }
 
+    @JsonBackReference
     public ProgramaEducativo getProgramaEducativo() {
         return programaEducativo;
     }

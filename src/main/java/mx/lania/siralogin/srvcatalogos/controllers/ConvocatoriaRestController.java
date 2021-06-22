@@ -1,7 +1,9 @@
 package mx.lania.siralogin.srvcatalogos.controllers;
 
 import mx.lania.siralogin.srvcatalogos.models.Convocatoria;
+import mx.lania.siralogin.srvcatalogos.models.ProgramaEducativo;
 import mx.lania.siralogin.srvcatalogos.models.service.IConvocatoriaService;
+import mx.lania.siralogin.srvcatalogos.models.service.IProgramaEducativoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,8 @@ public class ConvocatoriaRestController {
 
     @Autowired
     IConvocatoriaService convocatoriaService;
+    @Autowired
+    IProgramaEducativoService programaEducativoService;
 
     @GetMapping("/convocatorias")
     public List<Convocatoria> index(){
@@ -23,8 +27,10 @@ public class ConvocatoriaRestController {
 
     @PostMapping("/convocatorias")
     @ResponseStatus(HttpStatus.CREATED)
-    public Convocatoria save(@RequestBody Convocatoria convocatoria){
+    public Convocatoria save(@RequestBody Convocatoria convocatoria,@RequestParam Long idProgEducativo){
+        ProgramaEducativo progEducativo = programaEducativoService.findById(idProgEducativo);
         convocatoria.setCreatedAt(new Date());
+        convocatoria.setProgramaEducativo(progEducativo);
         return convocatoriaService.save(convocatoria);
     }
 
