@@ -36,9 +36,10 @@ public class ConvocatoriaRestController {
 
     @PutMapping("/convocatorias/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public Convocatoria update(@RequestBody Convocatoria convocatoria, @PathVariable Long id){
+    public Convocatoria update(@RequestBody Convocatoria convocatoria, @PathVariable Long id, @RequestParam Long idProgEducativo){
        Convocatoria convocatoriaActual = convocatoriaService.findById(id);
-       convocatoriaActual.setProgramaEducativo(convocatoria.getProgramaEducativo());
+        ProgramaEducativo progEducativo = programaEducativoService.findById(idProgEducativo);
+       convocatoriaActual.setProgramaEducativo(progEducativo);
        convocatoriaActual.setDescripcion(convocatoria.getDescripcion());
        convocatoriaActual.setNombre(convocatoria.getNombre());
        convocatoriaActual.setFechaInicio(convocatoria.getFechaInicio());
