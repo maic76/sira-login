@@ -1,12 +1,7 @@
 package mx.lania.siralogin.srvcatalogos.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -19,50 +14,41 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 //@NoArgsConstructor
-@Entity (name = "prog_educativos")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class ProgramaEducativo implements Serializable {
-
+@Entity(name = "requisitos")
+public class Requisito implements Serializable {
     @SequenceGenerator(
-            name ="prog_educativos_sequence",
-            sequenceName = "prog_educativos_sequence",
+            name ="requisitos_sequence",
+            sequenceName = "requisitos_sequence",
             allocationSize = 1
     )
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "prog_educativos_sequence"
+            generator = "requisitos_sequence"
     )
     private Long id;
     private String nombre;
-    private String clave;
+    private String tipo;
+    private boolean esDocumento;
     private String descripcion;
-    private Date vigencia;
+    private boolean esCambiante;
+
+    @ManyToMany(cascade ={CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name="requisitos_convocatorias",joinColumns = @JoinColumn(name="requisito_id"),
+            inverseJoinColumns = @JoinColumn(name="convocatoria_id"))
+    private List<Convocatoria> convocatorias = new ArrayList<>();
+
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
+
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
+
     @Column(name = "deleted_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedAt;
-    private String abreviatura;
-
-    @OneToMany(mappedBy = "programaEducativo",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Convocatoria> convocatorias;
-
-    public String getAbreviatura() {
-        return abreviatura;
-    }
-
-    public void setAbreviatura(String abreviatura) {
-        this.abreviatura = abreviatura;
-    }
-
-    public ProgramaEducativo() {
-        convocatorias = new ArrayList<Convocatoria>();
-    }
 
     public Long getId() {
         return id;
@@ -80,12 +66,20 @@ public class ProgramaEducativo implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getClave() {
-        return clave;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setClave(String clave) {
-        this.clave = clave;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public boolean isEsDocumento() {
+        return esDocumento;
+    }
+
+    public void setEsDocumento(boolean esDocumento) {
+        this.esDocumento = esDocumento;
     }
 
     public String getDescripcion() {
@@ -96,12 +90,12 @@ public class ProgramaEducativo implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public Date getVigencia() {
-        return vigencia;
+    public boolean isEsCambiante() {
+        return esCambiante;
     }
 
-    public void setVigencia(Date vigencia) {
-        this.vigencia = vigencia;
+    public void setEsCambiante(boolean esCambiante) {
+        this.esCambiante = esCambiante;
     }
 
     public Date getCreatedAt() {
@@ -126,18 +120,5 @@ public class ProgramaEducativo implements Serializable {
 
     public void setDeletedAt(Date deletedAt) {
         this.deletedAt = deletedAt;
-    }
-
-    @JsonBackReference
-    public List<Convocatoria> getConvocatorias() {
-        return convocatorias;
-    }
-
-    public void setConvocatorias(List<Convocatoria> convocatorias) {
-        this.convocatorias = convocatorias;
-    }
-
-    public void addConvocatoria(Convocatoria convocatoria){
-        this.convocatorias.add(convocatoria);
     }
 }

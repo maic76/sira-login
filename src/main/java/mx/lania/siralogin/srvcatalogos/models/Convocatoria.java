@@ -11,7 +11,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -45,14 +47,17 @@ public class Convocatoria implements Serializable {
     private ProgramaEducativo programaEducativo;
     private int cantAspirantes;
     @Column(name = "created_at")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
     @Column(name = "updated_at")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
     @Column(name = "deleted_at")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date deletedAt;
+
+    @ManyToMany(mappedBy = "convocatorias")
+    private List<Requisito> requisitos = new ArrayList<>();
 
 
     public Long getId() {
