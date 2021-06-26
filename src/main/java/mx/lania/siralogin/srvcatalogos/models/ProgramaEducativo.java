@@ -1,7 +1,9 @@
 package mx.lania.siralogin.srvcatalogos.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +20,7 @@ import java.util.List;
 @EqualsAndHashCode
 //@NoArgsConstructor
 @Entity (name = "prog_educativos")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class ProgramaEducativo implements Serializable {
 
     @SequenceGenerator(
@@ -125,7 +128,7 @@ public class ProgramaEducativo implements Serializable {
         this.deletedAt = deletedAt;
     }
 
-    //@JsonBackReference
+    @JsonBackReference
     public List<Convocatoria> getConvocatorias() {
         return convocatorias;
     }
