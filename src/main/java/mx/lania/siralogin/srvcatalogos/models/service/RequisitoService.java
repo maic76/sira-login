@@ -17,21 +17,23 @@ public class RequisitoService implements IRequisitoService{
 
     @Override
     public List<Requisito> findAll() {
-        return null;
+
+        return iRequisitoRepository.findAll();
     }
 
     @Override
     public Requisito findById(Long id) {
-        return null;
+        return iRequisitoRepository.findById(id).orElse(null);
     }
 
     @Override
     public Requisito save(Requisito requisito) {
-        return null;
+
+        return iRequisitoRepository.save(requisito);
     }
 
     @Override
     public void delete(Long id) {
-
+            iRequisitoRepository.deleteById(id);
     }
 }
