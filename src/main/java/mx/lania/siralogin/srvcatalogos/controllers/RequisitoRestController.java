@@ -43,7 +43,7 @@ public class RequisitoRestController {
     }
 
     @PostMapping("/requisitos")
-    public ResponseEntity<?> save(@RequestParam Requisito requisito){
+    public ResponseEntity<?> save(@RequestBody Requisito requisito){
         Requisito nuevoRequisito = null;
         Map<String,Object> response = new HashMap<>();
         try {
