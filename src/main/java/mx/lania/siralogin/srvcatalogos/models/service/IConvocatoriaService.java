@@ -1,6 +1,7 @@
 package mx.lania.siralogin.srvcatalogos.models.service;
 
 import mx.lania.siralogin.srvcatalogos.models.Convocatoria;
+import mx.lania.siralogin.srvcatalogos.models.RequisitoConvocatoria;
 
 import java.util.List;
 
@@ -12,4 +13,6 @@ public interface IConvocatoriaService {
     public Convocatoria save(Convocatoria convocatoria);
 
     public void delete(Long id);
+
+    //public Convocatoria saveRequisito(RequisitoConvocatoria requisitoConvocatoria, Long idConvocatoria);
 }

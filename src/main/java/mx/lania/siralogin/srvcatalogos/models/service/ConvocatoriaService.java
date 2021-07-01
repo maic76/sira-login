@@ -1,6 +1,7 @@
 package mx.lania.siralogin.srvcatalogos.models.service;
 
 import mx.lania.siralogin.srvcatalogos.models.Convocatoria;
+import mx.lania.siralogin.srvcatalogos.models.RequisitoConvocatoria;
 import mx.lania.siralogin.srvcatalogos.models.dao.IConvocatoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,4 +33,9 @@ public class ConvocatoriaService  implements IConvocatoriaService{
     public void delete(Long id) {
         convocatoriaRepository.deleteById(id);
     }
+/*
+    @Override
+    public Convocatoria addRequisitoConvocatoria(RequisitoConvocatoria requisitoConvocatoria, Long idConvocatoria) {
+             Convocatoria convocatoria =
+    }*/
 }

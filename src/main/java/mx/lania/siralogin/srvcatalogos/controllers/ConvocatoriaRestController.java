@@ -2,8 +2,11 @@ package mx.lania.siralogin.srvcatalogos.controllers;
 
 import mx.lania.siralogin.srvcatalogos.models.Convocatoria;
 import mx.lania.siralogin.srvcatalogos.models.ProgramaEducativo;
+import mx.lania.siralogin.srvcatalogos.models.Requisito;
+import mx.lania.siralogin.srvcatalogos.models.RequisitoConvocatoria;
 import mx.lania.siralogin.srvcatalogos.models.service.IConvocatoriaService;
 import mx.lania.siralogin.srvcatalogos.models.service.IProgramaEducativoService;
+import mx.lania.siralogin.srvcatalogos.models.service.IRequisitoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,8 @@ public class ConvocatoriaRestController {
     IConvocatoriaService convocatoriaService;
     @Autowired
     IProgramaEducativoService programaEducativoService;
+    @Autowired
+    IRequisitoService requisitoService;
 
     @GetMapping("/convocatorias")
     public List<Convocatoria> index(){
@@ -53,5 +58,22 @@ public class ConvocatoriaRestController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id){
         convocatoriaService.delete(id);
+    }
+
+    @PostMapping("/convocatorias/{idConvocatoria}/requisitos/{idRequisito}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Convocatoria saveConvocatoria(@PathVariable Long idConvocatoria, @PathVariable Long idRequisito, @RequestParam int cantidad,
+                                         @RequestParam String original, @RequestParam boolean indispensable){
+            Requisito requisito = requisitoService.findById(idRequisito);
+            Convocatoria convocatoria = convocatoriaService.findById(idConvocatoria);
+        RequisitoConvocatoria requisitoConvocatoria = new RequisitoConvocatoria();
+        requisitoConvocatoria.setRequisito(requisito);
+        requisitoConvocatoria.setCantidad(cantidad);
+        requisitoConvocatoria.setIndispensable(indispensable);
+        requisitoConvocatoria.setOriginal(original);
+         requisitoConvocatoria.setConvocatoria(convocatoria);
+
+            //TODO
+            return null;
     }
 }

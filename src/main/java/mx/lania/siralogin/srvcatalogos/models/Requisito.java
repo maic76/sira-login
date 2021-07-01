@@ -33,10 +33,15 @@ public class Requisito implements Serializable {
     private String descripcion;
     private boolean esCambiante;
 
-    @ManyToMany(cascade ={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name="requisitos_convocatorias",joinColumns = @JoinColumn(name="requisito_id"),
-            inverseJoinColumns = @JoinColumn(name="convocatoria_id"))
-    private List<Convocatoria> convocatorias = new ArrayList<>();
+   // @ManyToMany(cascade ={CascadeType.PERSIST, CascadeType.MERGE})
+   // @JoinTable(name="requisitos_convocatorias",joinColumns = @JoinColumn(name="requisito_id"),
+      //      inverseJoinColumns = @JoinColumn(name="convocatoria_id"))
+
+    //private List<Convocatoria> convocatorias = new ArrayList<>();
+
+    @OneToMany(mappedBy = "requisito", cascade = CascadeType.ALL)
+    private List<RequisitoConvocatoria> requisitoConvocatorias = new ArrayList<>();
+
 
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)

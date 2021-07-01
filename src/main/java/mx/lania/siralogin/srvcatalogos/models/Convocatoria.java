@@ -56,12 +56,23 @@ public class Convocatoria implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedAt;
 
-    @ManyToMany(mappedBy = "convocatorias")
-    private List<Requisito> requisitos = new ArrayList<>();
+   /* @ManyToMany(mappedBy = "convocatorias")
+    private List<Requisito> requisitos = new ArrayList<>();*/
+
+    @OneToMany(mappedBy = "convocatoria", cascade = CascadeType.ALL)
+    private List<RequisitoConvocatoria> requisitoConvocatorias = new ArrayList<>();
 
 
     public Long getId() {
         return id;
+    }
+
+    public List<RequisitoConvocatoria> getRequisitoConvocatorias() {
+        return requisitoConvocatorias;
+    }
+
+    public void setRequisitoConvocatorias(List<RequisitoConvocatoria> requisitoConvocatorias) {
+        this.requisitoConvocatorias = requisitoConvocatorias;
     }
 
     public void setId(Long id) {
@@ -139,5 +150,9 @@ public class Convocatoria implements Serializable {
 
     public void setDeletedAt(Date deletedAt) {
         this.deletedAt = deletedAt;
+    }
+
+    public void addRequisitoConvocatorias(RequisitoConvocatoria requisitoConvocatoria){
+        this.requisitoConvocatorias.add(requisitoConvocatoria);
     }
 }
