@@ -37,6 +37,7 @@ public class RequisitoConvocatoria implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="convocatoria_id")
+    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
     private Convocatoria convocatoria;
 
     private int cantidad;

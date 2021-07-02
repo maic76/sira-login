@@ -92,4 +92,12 @@ public class ConvocatoriaRestController {
         response.put("requisito",convocatoriaActualizada);
         return  new ResponseEntity<Map<String,Object>>(response,HttpStatus.CREATED);
     }
+
+    @GetMapping("/convocatorias/{idConvocatoria}/requisitos")
+    @ResponseStatus(HttpStatus.OK)
+    public  List<RequisitoConvocatoria> requisitosConvocatoria(@PathVariable Long idConvocatoria){
+        Convocatoria convocatoria = convocatoriaService.findById(idConvocatoria);
+        return convocatoria.getRequisitoConvocatorias();
+    }
+
 }

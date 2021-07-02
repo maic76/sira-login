@@ -64,7 +64,7 @@ public class Convocatoria implements Serializable {
         return id;
     }
 
-
+    @JsonBackReference
     public List<RequisitoConvocatoria> getRequisitoConvocatorias() {
         return requisitoConvocatorias;
     }
