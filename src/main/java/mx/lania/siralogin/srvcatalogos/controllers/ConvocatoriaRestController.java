@@ -64,6 +64,7 @@ public class ConvocatoriaRestController {
     @ResponseStatus(HttpStatus.CREATED)
     public Convocatoria saveConvocatoria(@PathVariable Long idConvocatoria, @PathVariable Long idRequisito, @RequestParam int cantidad,
                                          @RequestParam String original, @RequestParam boolean indispensable){
+
             Requisito requisito = requisitoService.findById(idRequisito);
             Convocatoria convocatoria = convocatoriaService.findById(idConvocatoria);
         RequisitoConvocatoria requisitoConvocatoria = new RequisitoConvocatoria();
@@ -73,7 +74,8 @@ public class ConvocatoriaRestController {
         requisitoConvocatoria.setOriginal(original);
          requisitoConvocatoria.setConvocatoria(convocatoria);
 
-            //TODO
-            return null;
+         convocatoria.addRequisitoConvocatorias(requisitoConvocatoria);
+          return convocatoriaService.save(convocatoria);
+
     }
 }

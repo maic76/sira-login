@@ -1,5 +1,7 @@
 package mx.lania.siralogin.srvcatalogos.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +32,7 @@ public class RequisitoConvocatoria implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="requisito_id")
+    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
     private Requisito requisito;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -100,6 +103,23 @@ public class RequisitoConvocatoria implements Serializable {
 
     public Date getDeletedAt() {
         return deletedAt;
+    }
+
+
+    public Requisito getRequisito() {
+        return requisito;
+    }
+
+    public void setRequisito(Requisito requisito) {
+        this.requisito = requisito;
+    }
+
+    public Convocatoria getConvocatoria() {
+        return convocatoria;
+    }
+
+    public void setConvocatoria(Convocatoria convocatoria) {
+        this.convocatoria = convocatoria;
     }
 
     public void setDeletedAt(Date deletedAt) {

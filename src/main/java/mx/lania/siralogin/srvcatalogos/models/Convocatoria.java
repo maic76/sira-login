@@ -1,9 +1,6 @@
 package mx.lania.siralogin.srvcatalogos.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerator;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -66,6 +63,7 @@ public class Convocatoria implements Serializable {
     public Long getId() {
         return id;
     }
+
 
     public List<RequisitoConvocatoria> getRequisitoConvocatorias() {
         return requisitoConvocatorias;

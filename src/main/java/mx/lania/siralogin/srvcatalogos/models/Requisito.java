@@ -1,5 +1,7 @@
 package mx.lania.siralogin.srvcatalogos.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,8 +42,17 @@ public class Requisito implements Serializable {
     //private List<Convocatoria> convocatorias = new ArrayList<>();
 
     @OneToMany(mappedBy = "requisito", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
     private List<RequisitoConvocatoria> requisitoConvocatorias = new ArrayList<>();
 
+    @JsonBackReference
+    public List<RequisitoConvocatoria> getRequisitoConvocatorias() {
+        return requisitoConvocatorias;
+    }
+
+    public void setRequisitoConvocatorias(List<RequisitoConvocatoria> requisitoConvocatorias) {
+        this.requisitoConvocatorias = requisitoConvocatorias;
+    }
 
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
