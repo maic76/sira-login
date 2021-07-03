@@ -89,7 +89,7 @@ public class ConvocatoriaRestController {
             return new ResponseEntity<Map<String,Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         response.put("mensaje","Exito al agregar Requisito a la Convocatoria!");
-        response.put("requisito",convocatoriaActualizada);
+        response.put("requisitos",convocatoriaActualizada.getRequisitoConvocatorias());
         return  new ResponseEntity<Map<String,Object>>(response,HttpStatus.CREATED);
     }
 
