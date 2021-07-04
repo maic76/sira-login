@@ -153,4 +153,21 @@ public class Convocatoria implements Serializable {
     public void addRequisitoConvocatorias(RequisitoConvocatoria requisitoConvocatoria){
         this.requisitoConvocatorias.add(requisitoConvocatoria);
     }
+
+    public void updateRequisitoConvocatoria(RequisitoConvocatoria requisitoConvocatoriaActualizado){
+       RequisitoConvocatoria requisitoConv =
+                                     this.requisitoConvocatorias.stream()
+                                     .filter(reqConv -> requisitoConvocatoriaActualizado.getRequisito().equals(reqConv.getRequisito()))
+                                     .findFirst().orElse(null);
+            this.requisitoConvocatorias.remove(requisitoConv);
+            this.requisitoConvocatorias.add(requisitoConvocatoriaActualizado);
+    }
+
+    public void removeRequisitoConvocatoria(RequisitoConvocatoria requisitoConvocatoriaEliminar){
+        RequisitoConvocatoria requisitoConv =
+                this.requisitoConvocatorias.stream()
+                        .filter(reqConv -> requisitoConvocatoriaEliminar.getRequisito().equals(reqConv.getRequisito()))
+                        .findFirst().orElse(null);
+        this.requisitoConvocatorias.remove(requisitoConv);
+    }
 }

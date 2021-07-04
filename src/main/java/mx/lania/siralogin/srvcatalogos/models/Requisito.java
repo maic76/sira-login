@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -136,5 +137,18 @@ public class Requisito implements Serializable {
 
     public void setDeletedAt(Date deletedAt) {
         this.deletedAt = deletedAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Requisito requisito = (Requisito) o;
+        return esDocumento == requisito.esDocumento && esCambiante == requisito.esCambiante && nombre.equals(requisito.nombre) && Objects.equals(tipo, requisito.tipo) && descripcion.equals(requisito.descripcion);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nombre, tipo, esDocumento, descripcion, esCambiante);
     }
 }

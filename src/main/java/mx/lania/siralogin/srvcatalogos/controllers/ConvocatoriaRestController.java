@@ -100,4 +100,32 @@ public class ConvocatoriaRestController {
         return convocatoria.getRequisitoConvocatorias();
     }
 
+    @DeleteMapping("/convocatorias/{idConvocatoria}/requisitos/{idRequisitos}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<?> removeRequisitoConvocatoria(@PathVariable Long idConvocatoria, @PathVariable Long idRequisito, @RequestParam int cantidad,
+                                                         @RequestParam String original, @RequestParam boolean indispensable){
+        Convocatoria convocatoriaActualizada = null;
+        Map<String,Object> response = new HashMap<>();
+        try{
+            Requisito requisito = requisitoService.findById(idRequisito);
+            Convocatoria convocatoria = convocatoriaService.findById(idConvocatoria);
+            RequisitoConvocatoria requisitoConvocatoria = new RequisitoConvocatoria();
+            requisitoConvocatoria.setRequisito(requisito);
+            requisitoConvocatoria.setCantidad(cantidad);
+            requisitoConvocatoria.setIndispensable(indispensable);
+            requisitoConvocatoria.setOriginal(original);
+            requisitoConvocatoria.setConvocatoria(convocatoria);
+            convocatoria.removeRequisitoConvocatoria(requisitoConvocatoria);
+            convocatoriaActualizada =  convocatoriaService.save(convocatoria);
+
+        }catch (DataAccessException ex){
+            response.put("mensaje", "Error al realizar eliminado en la BD");
+            response.put("error",ex.getMessage().concat(": ").concat(ex.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String,Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        response.put("mensaje","Exito al agregar Requisito a la Convocatoria!");
+        response.put("requisitos",convocatoriaActualizada.getRequisitoConvocatorias());
+        return  new ResponseEntity<Map<String,Object>>(response,HttpStatus.CREATED);
+    }
+
 }
