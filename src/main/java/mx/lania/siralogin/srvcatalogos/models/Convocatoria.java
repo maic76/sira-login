@@ -56,7 +56,7 @@ public class Convocatoria implements Serializable {
    /* @ManyToMany(mappedBy = "convocatorias")
     private List<Requisito> requisitos = new ArrayList<>();*/
 
-    @OneToMany(mappedBy = "convocatoria", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "convocatoria", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<RequisitoConvocatoria> requisitoConvocatorias = new ArrayList<>();
 
 
@@ -168,6 +168,9 @@ public class Convocatoria implements Serializable {
                 this.requisitoConvocatorias.stream()
                         .filter(reqConv -> requisitoConvocatoriaEliminar.getRequisito().equals(reqConv.getRequisito()))
                         .findFirst().orElse(null);
+        System.out.println("El id del requisitoconv es >>>> "+requisitoConv.getId());
+        System.out.println("La cantidad del requisitoconv es >>>> "+requisitoConv.getCantidad());
         this.requisitoConvocatorias.remove(requisitoConv);
+        requisitoConv.setConvocatoria(null);
     }
 }
