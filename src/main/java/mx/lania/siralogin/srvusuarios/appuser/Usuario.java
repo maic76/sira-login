@@ -32,48 +32,29 @@ public class Usuario implements UserDetails {
             generator = "usuario_sequence"
     )
     private Long id;
-    private String nombre;
-    private String apellido;
+
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)
     private UsuarioRol usuarioRol;
-    private String escuela;
-    private String noWhatsapp;
+
     private Boolean locked = false;
     private Boolean enabled = false;
 
-    public Usuario(String nombre,
-                   String apellido,
+
+    public Usuario(
                    String email,
                    String password,
-                   UsuarioRol usuarioRol,
-                   String escuela,
-                   String noWhatsapp) {
-        this.nombre = nombre;
-        this.apellido = apellido;
+                   UsuarioRol usuarioRol
+                 ) {
+
         this.email = email;
         this.password = password;
         this.usuarioRol = usuarioRol;
-        this.escuela = escuela;
-        this.noWhatsapp = noWhatsapp;
+
     }
 
-    public String getEscuela() {
-        return escuela;
-    }
 
-    public void setEscuela(String escuela) {
-        this.escuela = escuela;
-    }
-
-    public String getNoWhatsapp() {
-        return noWhatsapp;
-    }
-
-    public void setNoWhatsapp(String noWhatsapp) {
-        this.noWhatsapp = noWhatsapp;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -87,18 +68,12 @@ public class Usuario implements UserDetails {
         return password;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
 
     @Override
     public String getUsername() {
         return email;
     }
 
-    public String getApellido() {
-        return apellido;
-    }
 
     @Override
     public boolean isAccountNonExpired() {

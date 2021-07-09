@@ -61,4 +61,8 @@ public class UsuarioService implements UserDetailsService {
     public int enableUsuario(String email) {
         return usuarioRepository.enableUsuario(email);
     }
+
+    public Usuario getUsuarioByEmail(String email){
+       return usuarioRepository.findByEmail(email).orElse(null);
+    }
 }

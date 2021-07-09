@@ -2,11 +2,15 @@ package mx.lania.siralogin.srvusuarios.registration;
 
 import lombok.AllArgsConstructor;
 import mx.lania.siralogin.srvusuarios.appuser.Usuario;
+import mx.lania.siralogin.srvusuarios.appuser.UsuarioRepository;
 import mx.lania.siralogin.srvusuarios.appuser.UsuarioRol;
 import mx.lania.siralogin.srvusuarios.appuser.UsuarioService;
+import mx.lania.siralogin.srvusuarios.aspirante.models.Aspirante;
+import mx.lania.siralogin.srvusuarios.aspirante.models.service.IAspiranteService;
 import mx.lania.siralogin.srvusuarios.email.EmailSender;
 import mx.lania.siralogin.srvusuarios.registration.token.ConfirmationToken;
 import mx.lania.siralogin.srvusuarios.registration.token.ConfirmationTokenService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,8 +24,10 @@ public class RegistrationService {
     private final EmailValidator emailValidator;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
+    private  final IAspiranteService iAspiranteService;
 
     public String register(RegistrationRequest request) {  //acá iría el tipo de rol cuando se agreguen Admin y Seguimiento
+
 
         boolean isValidEmail = emailValidator.test(request.getEmail()); // validamos el mail
         if(!isValidEmail){
@@ -30,15 +36,24 @@ public class RegistrationService {
 
         String token = usuarioService.signUpUser(
                 new Usuario(
-                        request.getNombre(),
-                        request.getApellido(),
                         request.getEmail(),
                         request.getPassword(),
-                        UsuarioRol.USER,
-                        request.getEscuela(),
-                        request.getNoWhatsapp()
+                        UsuarioRol.USER
                 )
         );
+
+        Aspirante aspirante = new Aspirante();
+        aspirante.setApellido(request.getApellido());
+        aspirante.setNombre(request.getNombre());
+        aspirante.setEscuela(request.getEscuela());
+        aspirante.setNoWhatsapp(request.getNoWhatsapp());
+
+        Usuario usuarioCreado = usuarioService.getUsuarioByEmail(request.getEmail());
+        if(usuarioCreado!= null){
+            aspirante.setUsuario(usuarioCreado);
+            iAspiranteService.save(aspirante);
+        }
+
         String link = "http://localhost:8081/sira/usuarios/confirm?token="+token;
         emailSender.send(request.getEmail(),buildEmail(request.getNombre(),link));
         return token;
