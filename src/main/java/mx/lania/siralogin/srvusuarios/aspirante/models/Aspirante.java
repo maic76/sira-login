@@ -3,10 +3,13 @@ package mx.lania.siralogin.srvusuarios.aspirante.models;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import mx.lania.siralogin.srvparticipaciones.models.Participacion;
 import mx.lania.siralogin.srvusuarios.appuser.Usuario;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -32,6 +35,9 @@ public class Aspirante implements Serializable {
     @OneToOne
     @JoinColumn(name="usuario_id")
     private Usuario usuario;
+
+    @OneToMany(mappedBy = "aspirante", cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Participacion> participaciones = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -79,5 +85,17 @@ public class Aspirante implements Serializable {
 
     public void setNoWhatsapp(String noWhatsapp) {
         this.noWhatsapp = noWhatsapp;
+    }
+
+    public void addParticipacion(Participacion participacion){
+        this.participaciones.add(participacion);
+    }
+
+    public List<Participacion> getParticipaciones() {
+        return participaciones;
+    }
+
+    public void setParticipaciones(List<Participacion> participaciones) {
+        this.participaciones = participaciones;
     }
 }

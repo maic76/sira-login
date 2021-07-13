@@ -1,6 +1,7 @@
 package mx.lania.siralogin.srvusuarios.aspirante.models.service;
 
 import lombok.AllArgsConstructor;
+import mx.lania.siralogin.srvparticipaciones.models.Participacion;
 import mx.lania.siralogin.srvusuarios.aspirante.models.Aspirante;
 import mx.lania.siralogin.srvusuarios.aspirante.models.dao.IAspiranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,4 +35,11 @@ public class AspiranteService implements IAspiranteService{
     public void delete(Long id) {
         aspiranteRepository.deleteById(id);
     }
+
+    @Override
+    public List<Participacion> findParticipaciones(Long idAspirante) {
+
+        return null;
+    }
+
 }

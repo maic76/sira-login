@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+@Entity(name="participaciones")
 public class Participacion implements Serializable {
     @SequenceGenerator(
             name ="participacion_sequence",
