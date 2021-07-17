@@ -53,7 +53,28 @@ public class Convocatoria implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedAt;
 
-   /* @ManyToMany(mappedBy = "convocatorias")
+    @Temporal(TemporalType.DATE)
+    private Date fechaExamen;
+    @Temporal(TemporalType.TIME)
+    private Date horaExamen;
+
+    public Date getFechaExamen() {
+        return fechaExamen;
+    }
+
+    public void setFechaExamen(Date fechaExamen) {
+        this.fechaExamen = fechaExamen;
+    }
+
+    public Date getHoraExamen() {
+        return horaExamen;
+    }
+
+    public void setHoraExamen(Date horaExamen) {
+        this.horaExamen = horaExamen;
+    }
+
+/* @ManyToMany(mappedBy = "convocatorias")
     private List<Requisito> requisitos = new ArrayList<>();*/
 
     @OneToMany(mappedBy = "convocatoria", cascade = CascadeType.ALL,orphanRemoval = true)
