@@ -49,6 +49,26 @@ public class ProgramaEducativo implements Serializable {
     private Date deletedAt;
     private String abreviatura;
 
+    private String src;
+
+    public String getSrc() {
+        return src;
+    }
+
+    public void setSrc(String src) {
+        this.src = src;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    private String tipo;
+
     @OneToMany(mappedBy = "programaEducativo",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Convocatoria> convocatorias;
 
