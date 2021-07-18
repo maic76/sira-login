@@ -1,12 +1,15 @@
 package mx.lania.siralogin.srvparticipaciones.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import mx.lania.siralogin.srvcatalogos.models.Convocatoria;
 import mx.lania.siralogin.srvusuarios.aspirante.models.Aspirante;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity(name="participaciones")
 public class Participacion implements Serializable {
@@ -24,13 +27,17 @@ public class Participacion implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="aspirante_id")
-    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
     private Aspirante aspirante;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="convocatoria_id")
-    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
+    @JsonIgnoreProperties( {"hibernateLazyInitializer","handler"})
     private Convocatoria convocatoria;
+
+    @OneToMany(mappedBy = "participacion", cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonIgnoreProperties( {"hibernateLazyInitializer","handler"})
+    private List<ParticipacionRequisitoConvocatoria> participacionRequisitosConvocatoria = new ArrayList<>();
 
     @Temporal(TemporalType.DATE)
     private Date fechaInscripcion;
@@ -75,5 +82,18 @@ public class Participacion implements Serializable {
 
     public void setActiva(boolean activa) {
         this.activa = activa;
+    }
+
+
+    public List<ParticipacionRequisitoConvocatoria> getParticipacionRequisitosConvocatoria() {
+        return participacionRequisitosConvocatoria;
+    }
+
+    public void setParticipacionRequisitosConvocatoria(List<ParticipacionRequisitoConvocatoria> participacionRequisitosConvocatoria) {
+        this.participacionRequisitosConvocatoria = participacionRequisitosConvocatoria;
+    }
+
+    public void addParticipacionRequisitosConvocatoria(ParticipacionRequisitoConvocatoria participacionRequisitoConvocatoria){
+        this.participacionRequisitosConvocatoria.add(participacionRequisitoConvocatoria);
     }
 }

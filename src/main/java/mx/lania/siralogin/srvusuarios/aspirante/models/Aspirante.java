@@ -1,5 +1,6 @@
 package mx.lania.siralogin.srvusuarios.aspirante.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,6 +37,7 @@ public class Aspirante implements Serializable {
     @JoinColumn(name="usuario_id")
     private Usuario usuario;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "aspirante", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Participacion> participaciones = new ArrayList<>();
 

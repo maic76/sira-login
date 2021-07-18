@@ -2,8 +2,10 @@ package mx.lania.siralogin.srvparticipaciones.controllers;
 
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import mx.lania.siralogin.srvcatalogos.models.Convocatoria;
+import mx.lania.siralogin.srvcatalogos.models.RequisitoConvocatoria;
 import mx.lania.siralogin.srvcatalogos.models.service.ConvocatoriaService;
 import mx.lania.siralogin.srvparticipaciones.models.Participacion;
+import mx.lania.siralogin.srvparticipaciones.models.ParticipacionRequisitoConvocatoria;
 import mx.lania.siralogin.srvparticipaciones.models.service.ParticipacionService;
 import mx.lania.siralogin.srvusuarios.aspirante.models.Aspirante;
 import mx.lania.siralogin.srvusuarios.aspirante.models.service.AspiranteService;
@@ -28,14 +30,14 @@ public class ParticipacionRestController {
     @Autowired
     private ConvocatoriaService convocatoriaService;
 
-    @GetMapping("/participaciones/{idAspirante}")
+    @GetMapping("/participaciones/aspirantes/{idAspirante}")
     public List<Participacion> findParticipaciones(@PathVariable Long idAspirante){
         Aspirante aspirante = aspiranteService.findById(idAspirante);
 
         return aspirante.getParticipaciones();
     }
 
-    @PostMapping("/participaciones/{idAspirante}/convocatorias/{idConvocatoria}")
+    @PostMapping("/participaciones/aspirantes/{idAspirante}/convocatorias/{idConvocatoria}")
     public ResponseEntity<?> crearParticipacion(@PathVariable Long idAspirante, @PathVariable Long idConvocatoria){
 
         Map<String,Object> response = new HashMap<>();
@@ -48,6 +50,15 @@ public class ParticipacionRestController {
             participacion.setAspirante(aspirante);
             participacion.setActiva(true);
             participacion.setFechaInscripcion(new Date());
+            for (RequisitoConvocatoria rc : convocatoria.getRequisitoConvocatorias()) {
+                ParticipacionRequisitoConvocatoria prc = new ParticipacionRequisitoConvocatoria();
+                prc.setRequisitoConvocatoria(rc);
+                prc.setParticipacion(participacion);
+                prc.setEntregado(false);
+                prc.setRutaArchivo(null);
+                participacion.addParticipacionRequisitosConvocatoria(prc);
+            }
+
             aspirante.addParticipacion(participacion);
             aspiranteService.save(aspirante);
             // TODO FALTA CREAR LA PARTICIPACION_REQUISITO_CONVOCATORIA POR CADA REQ_CONVOCATORIA DE LA CONV

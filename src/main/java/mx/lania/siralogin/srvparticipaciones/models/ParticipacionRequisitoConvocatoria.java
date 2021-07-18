@@ -1,5 +1,6 @@
 package mx.lania.siralogin.srvparticipaciones.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import mx.lania.siralogin.srvcatalogos.models.RequisitoConvocatoria;
 
@@ -42,6 +43,7 @@ public class ParticipacionRequisitoConvocatoria implements Serializable {
         this.id = id;
     }
 
+    @JsonBackReference
     public Participacion getParticipacion() {
         return participacion;
     }
