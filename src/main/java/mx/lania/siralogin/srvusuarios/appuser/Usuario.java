@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mx.lania.siralogin.srvusuarios.aspirante.models.Aspirante;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -41,6 +42,9 @@ public class Usuario implements UserDetails {
     private Boolean locked = false;
     private Boolean enabled = false;
 
+    @OneToOne(mappedBy = "usuario")
+    private Aspirante aspirante;
+
 
     public Usuario(
                    String email,
@@ -54,7 +58,13 @@ public class Usuario implements UserDetails {
 
     }
 
+    public Aspirante getAspirante() {
+        return aspirante;
+    }
 
+    public void setAspirante(Aspirante aspirante) {
+        this.aspirante = aspirante;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

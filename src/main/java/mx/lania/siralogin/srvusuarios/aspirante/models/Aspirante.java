@@ -33,11 +33,12 @@ public class Aspirante implements Serializable {
     private String apellido;
     private String escuela;
     private String noWhatsapp;
+    @JsonBackReference(value="usuario")
     @OneToOne
     @JoinColumn(name="usuario_id")
     private Usuario usuario;
 
-    @JsonBackReference
+    @JsonBackReference(value="participaciones")
     @OneToMany(mappedBy = "aspirante", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Participacion> participaciones = new ArrayList<>();
 
