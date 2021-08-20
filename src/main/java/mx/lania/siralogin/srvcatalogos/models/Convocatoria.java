@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mx.lania.siralogin.srvparticipaciones.models.Participacion;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -80,6 +81,16 @@ public class Convocatoria implements Serializable {
     @OneToMany(mappedBy = "convocatoria", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<RequisitoConvocatoria> requisitoConvocatorias = new ArrayList<>();
 
+    @OneToMany(mappedBy = "convocatoria", cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
+    private List<Participacion> participaciones = new ArrayList<>();
+
+    public List<Participacion> getParticipaciones() {
+        return participaciones;
+    }
+
+    public void setParticipaciones(List<Participacion> participaciones) {
+        this.participaciones = participaciones;
+    }
 
     public Long getId() {
         return id;

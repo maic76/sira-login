@@ -44,7 +44,7 @@ public class Participacion implements Serializable {
 
     private boolean activa;
 
-    String estatus;
+    private String estatus;
 
     public String getEstatus() {
         return estatus;

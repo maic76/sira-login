@@ -1,5 +1,6 @@
 package mx.lania.siralogin.srvcatalogos.controllers;
 
+import com.sun.mail.iap.Response;
 import mx.lania.siralogin.srvcatalogos.models.Convocatoria;
 import mx.lania.siralogin.srvcatalogos.models.ProgramaEducativo;
 import mx.lania.siralogin.srvcatalogos.models.Requisito;
@@ -126,6 +127,24 @@ public class ConvocatoriaRestController {
         response.put("mensaje","Exito al eliminar Requisito a la Convocatoria!");
         response.put("requisitos",convocatoriaActualizada.getRequisitoConvocatorias());
         return  new ResponseEntity<Map<String,Object>>(response,HttpStatus.CREATED);
+    }
+
+    @GetMapping("/convocatorias/{idConvocatoria}/participaciones")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<?> participacionesConvocatoria(@PathVariable Long idConvocatoria){
+        Map<String,Object> response = new HashMap<>();
+        Convocatoria convocatoria = null;
+        try {
+            convocatoria = convocatoriaService.findById(idConvocatoria);
+            convocatoria.getParticipaciones();
+        }catch (DataAccessException ex){
+            response.put("mensaje","Error al realizar la consulta a la BD");
+            response.put("error",ex.getMessage().concat(": ").concat(ex.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String,Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        response.put("mensaje","Exito al eliminar Requisito a la Convocatoria!");
+        response.put("convocatoria",convocatoria);
+        return  new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);
     }
 
 }
