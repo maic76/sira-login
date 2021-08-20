@@ -44,6 +44,16 @@ public class Participacion implements Serializable {
 
     private boolean activa;
 
+    String estatus;
+
+    public String getEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(String estatus) {
+        this.estatus = estatus;
+    }
+
     public Long getId() {
         return id;
     }

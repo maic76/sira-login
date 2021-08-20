@@ -62,12 +62,14 @@ public class ParticipacionRestController {
             participacion.setConvocatoria(convocatoria);
             participacion.setAspirante(aspirante);
             participacion.setActiva(true);
+            participacion.setEstatus("proceso"); // proceso o completada
             participacion.setFechaInscripcion(new Date());
             for (RequisitoConvocatoria rc : convocatoria.getRequisitoConvocatorias()) {
                 ParticipacionRequisitoConvocatoria prc = new ParticipacionRequisitoConvocatoria();
                 prc.setRequisitoConvocatoria(rc);
                 prc.setParticipacion(participacion);
                 prc.setEntregado(false);
+                prc.setValidado(false);
                 prc.setRutaArchivo(null);
                 participacion.addParticipacionRequisitosConvocatoria(prc);
             }

@@ -33,6 +33,16 @@ public class ParticipacionRequisitoConvocatoria implements Serializable {
 
     private boolean entregado;
 
+    private boolean validado;
+
+    public boolean isValidado() {
+        return validado;
+    }
+
+    public void setValidado(boolean validado) {
+        this.validado = validado;
+    }
+
     private String rutaArchivo;
 
     public Long getId() {
