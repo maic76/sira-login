@@ -19,7 +19,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +42,8 @@ public class ParticipacionRestController {
     private ConvocatoriaService convocatoriaService;
     @Autowired
     private UsuarioService usuarioService;
+    @Autowired
+    private ParticipacionService participacionService;
 
     @GetMapping("/")  //obtiene participaciones de un aspirante
     public List<Participacion> findParticipaciones(){
@@ -88,6 +97,41 @@ public class ParticipacionRestController {
         response.put("participaciones",aspirante.getParticipaciones());
         return  new ResponseEntity<Map<String,Object>>(response, HttpStatus.CREATED);
     }
+
+    @PutMapping("/{idParticipacion}")
+    public ResponseEntity<?> subirDocumento(@PathVariable Long idParticipacion, @RequestParam("file") MultipartFile file){
+        Map<String,Object> response = new HashMap<>();
+        Participacion participacion = null;
+                try{
+                    participacion = participacionService.findById(idParticipacion);
+                    if(file == null || file.isEmpty()){
+                        response.put("mensaje", "Por favor seleccione un archivo");
+                        return new ResponseEntity<Map<String,Object>>(response,HttpStatus.BAD_REQUEST);
+                    }
+
+                    StringBuilder builder = new StringBuilder();
+                    builder.append(System.getProperty("user.home"));
+                    builder.append(File.separator);
+                    builder.append("spring_upload_example");
+                    builder.append(File.separator);
+                    builder.append(file.getOriginalFilename());
+
+                    byte[] fileBytes = file.getBytes();
+                    Path path = Paths.get(builder.toString());
+                    Files.write(path, fileBytes);
+
+                    participacion.setEstatus("entregado");
+
+                    response.put("mensaje","Se subió el archivo con éxito!");
+
+                   // response.put("participacion");
+                }catch (IOException ex){
+                    response.put("mensaje", "Error al manejar el archivo");
+                    response.put("error",ex.getMessage());
+                }
+        return  new ResponseEntity<Map<String,Object>>(response, HttpStatus.CREATED);
+    }
+
 
 
 }
