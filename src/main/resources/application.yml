@@ -19,6 +19,7 @@ spring:
         format_sql: true
     show-sql: true
 
+
   mail:
     host: smtp.mailtrap.io
     port: 2525

@@ -22,16 +22,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/participaciones")
@@ -99,34 +97,56 @@ public class ParticipacionRestController {
         return  new ResponseEntity<Map<String,Object>>(response, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{idParticipacion}")
-    public ResponseEntity<?> subirDocumento(@PathVariable Long idParticipacion, @RequestParam("file") MultipartFile file){
+    @PutMapping("/{idParticipacion}/prc/{idPrc}")
+    public ResponseEntity<?> subirDocumento(@PathVariable Long idParticipacion, @PathVariable Long idPrc, @RequestParam("file") MultipartFile file){
         Map<String,Object> response = new HashMap<>();
         Participacion participacion = null;
+        Map<String,Integer> entregados = new HashMap<>();
+
                 try{
-                    participacion = participacionService.findById(idParticipacion);
                     if(file == null || file.isEmpty()){
                         response.put("mensaje", "Por favor seleccione un archivo");
                         return new ResponseEntity<Map<String,Object>>(response,HttpStatus.BAD_REQUEST);
                     }
-
-                    StringBuilder builder = new StringBuilder();
+                       /* StringBuilder builder = new StringBuilder();
                     builder.append(System.getProperty("user.home"));
                     builder.append(File.separator);
-                    builder.append("spring_upload_example");
-                    builder.append(File.separator);
+                    builder.append("spring_upload_example");*/
+                  /*  builder.append(File.separator);
                     builder.append(file.getOriginalFilename());
-
+                     Path path = Paths.get(builder.toString());*/
 
                     byte[] fileBytes = file.getBytes();
-                    Path path = Paths.get(builder.toString());
-                    Files.write(path, fileBytes);
+                   String nombreRandom =  UUID.randomUUID().toString().concat(".pdf");
+                     //String directorioPDF = ".//src//main//resources//static//documentos//";
+                     Path directorioPDF = Paths.get("src//main//resources//static//documentos");
+                    String rutaAbsoluta = directorioPDF.toFile().getAbsolutePath();
+                    //Path rutaCompleta = Paths.get(rutaAbsoluta + "//"+ file.getOriginalFilename());
+                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//"+ nombreRandom );
+                    Files.write(rutaCompleta, fileBytes);
 
-                    //participacion.setEstatus("entregado");
+                    participacion = participacionService.findById(idParticipacion);
+                    for (ParticipacionRequisitoConvocatoria prc : participacion.getParticipacionRequisitosConvocatoria()) {
+                        if (prc.getId() == idPrc) {
+                            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                                    .path("documentos/")
+                                    .path(nombreRandom)
+                                    .toUriString();
+
+                            prc.setEntregado(true);
+                            prc.setRutaArchivo(fileDownloadUri);
+                        }
+                    }
+                    participacionService.save(participacion);
+                    entregados = participacionService.calcularEntregados(participacion);
+
 
                     response.put("mensaje","Se subió el archivo con éxito!");
+                    response.put("participacion", participacion);
+                    response.put("entregados", entregados.get("entregados"));
+                    response.put("total", entregados.get("total"));
 
-                   // response.put("participacion");
+
                 }catch (IOException ex){
                     response.put("mensaje", "Error al manejar el archivo");
                     response.put("error",ex.getMessage());
@@ -144,17 +164,11 @@ public class ParticipacionRestController {
 
         Map<String,Object> response = new HashMap<>();
         Participacion participacion = null;
-        int entregados = 0;
-        int total = 0;
-       // ParticipacionDTO participacionDTO = new ParticipacionDTO();
+        Map<String,Integer> ent = new HashMap<>();
+
         try{
             participacion = participacionService.findById(idParticipacion);
-            for (ParticipacionRequisitoConvocatoria prc : participacion.getParticipacionRequisitosConvocatoria()) {
-                 if(prc.isEntregado()){
-                     entregados++;
-                 }
-                 total++;
-            }
+            ent = participacionService.calcularEntregados(participacion);
 
         }catch (DataAccessException ex){
             response.put("mensaje", "Error al realizar consulta en la BD");
@@ -164,8 +178,8 @@ public class ParticipacionRestController {
 
         response.put("mensaje","Se obtuvo la participación con exito");
         response.put("participacion",participacion);
-        response.put("total", total);
-        response.put("entregados",entregados);
+        response.put("total", ent.get("total"));
+        response.put("entregados",ent.get("entregados"));
         return  new ResponseEntity<Map<String,Object>>(response, HttpStatus.OK);
 
     }

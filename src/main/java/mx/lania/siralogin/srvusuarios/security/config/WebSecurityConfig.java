@@ -38,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))        //configuramos el filtro de logueo
                 .addFilterAfter(new JWTAuthorizationFilter(authenticationManager()),JWTAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/","index","/css/*","/js/*","/images/*","/fonts/*","/scss/*").permitAll()
+                .antMatchers("/","index","/css/*","/js/*","/images/*","/fonts/*","/scss/*","/documentos/*").permitAll()
                 .antMatchers("/sira/usuarios/**")
                 .permitAll()
                 .anyRequest()
