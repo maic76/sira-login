@@ -5,6 +5,7 @@ import mx.lania.siralogin.srvcatalogos.models.Convocatoria;
 import mx.lania.siralogin.srvcatalogos.models.RequisitoConvocatoria;
 import mx.lania.siralogin.srvcatalogos.models.service.ConvocatoriaService;
 import mx.lania.siralogin.srvparticipaciones.models.Participacion;
+import mx.lania.siralogin.srvparticipaciones.models.ParticipacionDTO;
 import mx.lania.siralogin.srvparticipaciones.models.ParticipacionRequisitoConvocatoria;
 import mx.lania.siralogin.srvparticipaciones.models.service.ParticipacionService;
 import mx.lania.siralogin.srvusuarios.appuser.Usuario;
@@ -116,11 +117,12 @@ public class ParticipacionRestController {
                     builder.append(File.separator);
                     builder.append(file.getOriginalFilename());
 
+
                     byte[] fileBytes = file.getBytes();
                     Path path = Paths.get(builder.toString());
                     Files.write(path, fileBytes);
 
-                    participacion.setEstatus("entregado");
+                    //participacion.setEstatus("entregado");
 
                     response.put("mensaje","Se subió el archivo con éxito!");
 
@@ -130,6 +132,42 @@ public class ParticipacionRestController {
                     response.put("error",ex.getMessage());
                 }
         return  new ResponseEntity<Map<String,Object>>(response, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{idParticipacion}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<?> getParticipacion(@PathVariable Long idParticipacion){
+
+      /*  String userName = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Usuario usuario = usuarioService.getUsuarioByEmail(userName);
+        Aspirante aspirante = usuario.getAspirante();*/
+
+        Map<String,Object> response = new HashMap<>();
+        Participacion participacion = null;
+        int entregados = 0;
+        int total = 0;
+       // ParticipacionDTO participacionDTO = new ParticipacionDTO();
+        try{
+            participacion = participacionService.findById(idParticipacion);
+            for (ParticipacionRequisitoConvocatoria prc : participacion.getParticipacionRequisitosConvocatoria()) {
+                 if(prc.isEntregado()){
+                     entregados++;
+                 }
+                 total++;
+            }
+
+        }catch (DataAccessException ex){
+            response.put("mensaje", "Error al realizar consulta en la BD");
+            response.put("error",ex.getMessage().concat(": ").concat(ex.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String,Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        response.put("mensaje","Se obtuvo la participación con exito");
+        response.put("participacion",participacion);
+        response.put("total", total);
+        response.put("entregados",entregados);
+        return  new ResponseEntity<Map<String,Object>>(response, HttpStatus.OK);
+
     }
 
 
