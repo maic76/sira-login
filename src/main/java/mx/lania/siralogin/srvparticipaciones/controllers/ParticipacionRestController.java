@@ -119,17 +119,18 @@ public class ParticipacionRestController {
                     byte[] fileBytes = file.getBytes();
                    String nombreRandom =  UUID.randomUUID().toString().concat(".pdf");
                      //String directorioPDF = ".//src//main//resources//static//documentos//";
-                     Path directorioPDF = Paths.get("src//main//resources//static//documentos");
-                    String rutaAbsoluta = directorioPDF.toFile().getAbsolutePath();
+                    String directorioPDF = "C://siratemp//uploads";
+                     //Path directorioPDF = Paths.get("src//main//resources//static//images");
+                   // String rutaAbsoluta = directorioPDF.toFile().getAbsolutePath();
                     //Path rutaCompleta = Paths.get(rutaAbsoluta + "//"+ file.getOriginalFilename());
-                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//"+ nombreRandom );
+                    Path rutaCompleta = Paths.get(directorioPDF + "//"+ nombreRandom );
                     Files.write(rutaCompleta, fileBytes);
 
                     participacion = participacionService.findById(idParticipacion);
                     for (ParticipacionRequisitoConvocatoria prc : participacion.getParticipacionRequisitosConvocatoria()) {
                         if (prc.getId() == idPrc) {
                             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                                    .path("documentos/")
+                                    .path("/uploads/")
                                     .path(nombreRandom)
                                     .toUriString();
 
