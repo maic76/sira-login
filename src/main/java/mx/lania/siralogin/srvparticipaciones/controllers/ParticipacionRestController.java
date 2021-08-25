@@ -70,7 +70,7 @@ public class ParticipacionRestController {
             participacion.setConvocatoria(convocatoria);
             participacion.setAspirante(aspirante);
             participacion.setActiva(true);
-            participacion.setEstatus("proceso"); // proceso o completada
+            participacion.setEstatus("subir requisitos"); // subir requisitos o en validación
             participacion.setFechaInscripcion(new Date());
             for (RequisitoConvocatoria rc : convocatoria.getRequisitoConvocatorias()) {
                 ParticipacionRequisitoConvocatoria prc = new ParticipacionRequisitoConvocatoria();
@@ -138,8 +138,13 @@ public class ParticipacionRestController {
                             prc.setRutaArchivo(fileDownloadUri);
                         }
                     }
-                    participacionService.save(participacion);
+
                     entregados = participacionService.calcularEntregados(participacion);
+                    if(entregados.get("entregados").equals(entregados.get("total"))){
+                        participacion.setEstatus("en validación");
+                    }
+
+                    participacionService.save(participacion);
 
 
                     response.put("mensaje","Se subió el archivo con éxito!");
