@@ -58,6 +58,23 @@ public class UsuarioService implements UserDetailsService {
         return token;
     }
 
+    public void signUpUserEmpleado(Usuario usuario){
+        boolean userExists = usuarioRepository.findByEmail(usuario.getEmail())
+                .isPresent();
+        if(userExists){
+            throw new IllegalStateException("email ya existe");
+        }
+
+        String encodedPassword = bCryptPasswordEncoder.encode(usuario.getPassword());
+
+        usuario.setPassword(encodedPassword);
+
+        usuarioRepository.save(usuario);
+
+        usuarioRepository.enableUsuario(usuario.getEmail());
+
+    }
+
     public int enableUsuario(String email) {
         return usuarioRepository.enableUsuario(email);
     }

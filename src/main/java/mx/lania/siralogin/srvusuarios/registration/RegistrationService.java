@@ -8,6 +8,8 @@ import mx.lania.siralogin.srvusuarios.appuser.UsuarioService;
 import mx.lania.siralogin.srvusuarios.aspirante.models.Aspirante;
 import mx.lania.siralogin.srvusuarios.aspirante.models.service.IAspiranteService;
 import mx.lania.siralogin.srvusuarios.email.EmailSender;
+import mx.lania.siralogin.srvusuarios.empleado.models.Empleado;
+import mx.lania.siralogin.srvusuarios.empleado.models.service.IEmpleadoService;
 import mx.lania.siralogin.srvusuarios.registration.token.ConfirmationToken;
 import mx.lania.siralogin.srvusuarios.registration.token.ConfirmationTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,7 @@ public class RegistrationService {
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
     private  final IAspiranteService iAspiranteService;
+    private final IEmpleadoService iEmpleadoService;
 
     public String register(RegistrationRequest request) {  //acá iría el tipo de rol cuando se agreguen Admin y Seguimiento
 
@@ -38,7 +41,7 @@ public class RegistrationService {
                 new Usuario(
                         request.getEmail(),
                         request.getPassword(),
-                        UsuarioRol.USER
+                        UsuarioRol.ASPIRANTE
                 )
         );
 
@@ -57,6 +60,40 @@ public class RegistrationService {
         String link = "http://localhost:8081/sira/usuarios/confirm?token="+token;
         emailSender.send(request.getEmail(),buildEmail(request.getNombre(),link));
         return token;
+    }
+
+    public Usuario registerEmpleado(RegistrationRequestEmpleado request){
+        boolean isValidEmail = emailValidator.test(request.getEmail()); // validamos el mail
+        if(!isValidEmail){
+            throw new IllegalStateException("Email no válido");
+        }
+        UsuarioRol rol;
+        if(request.getRol().equals("seguimiento")){
+            rol = UsuarioRol.SEGUIMIENTO;
+        }else{
+            rol = UsuarioRol.ADMIN;
+        }
+
+       usuarioService.signUpUserEmpleado(
+                new Usuario(
+                        request.getEmail(),
+                        request.getPassword(),
+                         rol
+                )
+        );
+
+        Empleado empleado = new Empleado();
+        empleado.setNombre(request.getNombre());
+        empleado.setApellido(request.getApellido());
+        empleado.setClave(request.getClave());
+
+        Usuario usuarioCreado = usuarioService.getUsuarioByEmail(request.getEmail());
+        if(usuarioCreado!= null){
+            empleado.setUsuario(usuarioCreado);
+            iEmpleadoService.save(empleado);
+        }
+
+        return usuarioCreado;
     }
 
     @Transactional

@@ -1,6 +1,8 @@
 package mx.lania.siralogin.srvusuarios.registration;
 
 import lombok.AllArgsConstructor;
+import mx.lania.siralogin.srvusuarios.appuser.Usuario;
+import mx.lania.siralogin.srvusuarios.empleado.models.Empleado;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,4 +29,10 @@ public class RegistrationController {
         }
         return null;
     }
+
+    @PostMapping(path="/empleados")
+    public Usuario registerEmpleado(@RequestBody RegistrationRequestEmpleado requestEmpleado){
+        return registrationService.registerEmpleado(requestEmpleado);
+    }
+
 }

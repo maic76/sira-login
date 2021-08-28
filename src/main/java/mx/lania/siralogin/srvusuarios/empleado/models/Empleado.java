@@ -1,5 +1,6 @@
 package mx.lania.siralogin.srvusuarios.empleado.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,6 +27,7 @@ public class Empleado {
     private String nombre;
     private String apellido;
     private String clave;
+    @JsonBackReference(value="usuario")
     @OneToOne
     @JoinColumn(name="usuario_id")
     private Usuario usuario;

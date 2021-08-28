@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mx.lania.siralogin.srvusuarios.aspirante.models.Aspirante;
+import mx.lania.siralogin.srvusuarios.empleado.models.Empleado;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -45,6 +46,9 @@ public class Usuario implements UserDetails {
     @OneToOne(mappedBy = "usuario")
     private Aspirante aspirante;
 
+    @OneToOne(mappedBy = "usuario")
+    private Empleado empleado;
+
 
     public Usuario(
                    String email,
@@ -56,6 +60,14 @@ public class Usuario implements UserDetails {
         this.password = password;
         this.usuarioRol = usuarioRol;
 
+    }
+
+    public Empleado getEmpleado() {
+        return empleado;
+    }
+
+    public void setEmpleado(Empleado empleado) {
+        this.empleado = empleado;
     }
 
     public Aspirante getAspirante() {
