@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 /*@CrossOrigin(origins = "http://localhost:8080")*/
@@ -33,6 +34,11 @@ public class RegistrationController {
     @PostMapping(path="/empleados")
     public Usuario registerEmpleado(@RequestBody RegistrationRequestEmpleado requestEmpleado){
         return registrationService.registerEmpleado(requestEmpleado);
+    }
+
+    @GetMapping(path="/empleados")
+    public List<Usuario> obtenerUsuariosLania(){
+        return registrationService.obtenerUsuariosLania();
     }
 
 }

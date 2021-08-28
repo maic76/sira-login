@@ -10,6 +10,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -81,5 +84,12 @@ public class UsuarioService implements UserDetailsService {
 
     public Usuario getUsuarioByEmail(String email){
        return usuarioRepository.findByEmail(email).orElse(null);
+    }
+
+    public List<Usuario> buscarUsuariosLania(){
+        List<UsuarioRol> roles = new ArrayList<>();
+        roles.add(UsuarioRol.ADMIN);
+        roles.add(UsuarioRol.SEGUIMIENTO);
+        return usuarioRepository.findByUsuarioRolIn(roles);
     }
 }

@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -19,4 +21,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     @Query("UPDATE Usuario a " +
             "SET a.enabled = TRUE WHERE a.email = ?1")
     int enableUsuario(String email);
+
+    List<Usuario>   findByUsuarioRolIn(Collection<UsuarioRol> usuarioRol);
 }

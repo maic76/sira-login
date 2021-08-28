@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -68,7 +69,7 @@ public class RegistrationService {
             throw new IllegalStateException("Email no válido");
         }
         UsuarioRol rol;
-        if(request.getRol().equals("seguimiento")){
+        if(request.getRol().equals("SEGUIMIENTO")){
             rol = UsuarioRol.SEGUIMIENTO;
         }else{
             rol = UsuarioRol.ADMIN;
@@ -186,5 +187,9 @@ public class RegistrationService {
                 "  </tbody></table><div class=\"yj6qo\"></div><div class=\"adL\">\n" +
                 "\n" +
                 "</div></div>";
+    }
+
+    public List<Usuario> obtenerUsuariosLania(){
+       return usuarioService.buscarUsuariosLania();
     }
 }
