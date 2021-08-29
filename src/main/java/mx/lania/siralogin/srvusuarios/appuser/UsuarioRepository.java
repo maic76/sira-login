@@ -22,5 +22,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "SET a.enabled = TRUE WHERE a.email = ?1")
     int enableUsuario(String email);
 
+    @Transactional
+    @Modifying
+    @Query("UPDATE Usuario a " +
+            "SET a.enabled = FALSE WHERE a.email = ?1")
+    int unableUsuario(String email);
+
     List<Usuario>   findByUsuarioRolIn(Collection<UsuarioRol> usuarioRol);
 }

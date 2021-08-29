@@ -1,6 +1,7 @@
 package mx.lania.siralogin.srvusuarios.appuser;
 
 import lombok.AllArgsConstructor;
+import mx.lania.siralogin.srvusuarios.empleado.models.Empleado;
 import mx.lania.siralogin.srvusuarios.registration.token.ConfirmationToken;
 import mx.lania.siralogin.srvusuarios.registration.token.ConfirmationTokenService;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -78,6 +79,25 @@ public class UsuarioService implements UserDetailsService {
 
     }
 
+    public void updateUserEmpleado(Usuario usuario){
+        Usuario user = usuarioRepository.findByEmail(usuario.getEmail()).orElse(null);
+
+        if(user.equals(null)){
+            throw new IllegalStateException("usuario no existe");
+        }
+
+        String encodedPassword = bCryptPasswordEncoder.encode(usuario.getPassword());
+
+        user.setPassword(encodedPassword);
+        user.setEmail(usuario.getEmail());
+        user.setUsuarioRol(usuario.getUsuarioRol());
+
+        usuarioRepository.save(user);
+
+        usuarioRepository.enableUsuario(user.getEmail());
+
+    }
+
     public int enableUsuario(String email) {
         return usuarioRepository.enableUsuario(email);
     }
@@ -91,5 +111,9 @@ public class UsuarioService implements UserDetailsService {
         roles.add(UsuarioRol.ADMIN);
         roles.add(UsuarioRol.SEGUIMIENTO);
         return usuarioRepository.findByUsuarioRolIn(roles);
+    }
+
+    public int unableUsuario(String email) {
+        return usuarioRepository.unableUsuario(email);
     }
 }

@@ -192,4 +192,50 @@ public class RegistrationService {
     public List<Usuario> obtenerUsuariosLania(){
        return usuarioService.buscarUsuariosLania();
     }
+
+    public Usuario editarEmpleado(RegistrationRequestEmpleado request){
+
+        boolean isValidEmail = emailValidator.test(request.getEmail()); // validamos el mail
+
+        if(!isValidEmail){
+            throw new IllegalStateException("Email no válido");
+        }
+        UsuarioRol rol;
+        if(request.getRol().equals("SEGUIMIENTO")){
+            rol = UsuarioRol.SEGUIMIENTO;
+        }else{
+            rol = UsuarioRol.ADMIN;
+        }
+
+        usuarioService.updateUserEmpleado(
+                new Usuario(
+                        request.getEmail(),
+                        request.getPassword(),
+                        rol
+                )
+        );
+
+        Usuario usuarioEditado = usuarioService.getUsuarioByEmail(request.getEmail());
+
+        Empleado empleado = usuarioEditado.getEmpleado();
+        empleado.setNombre(request.getNombre());
+        empleado.setApellido(request.getApellido());
+        empleado.setClave(request.getClave());
+
+
+        if(usuarioEditado!= null){
+            empleado.setUsuario(usuarioEditado);
+            iEmpleadoService.save(empleado);
+        }
+
+        return usuarioEditado;
+    }
+
+    public void unableUsuario(String email){
+        usuarioService.unableUsuario(email);
+    }
+
+    public void enableUsuario(String email){
+        usuarioService.enableUsuario(email);
+    }
 }
