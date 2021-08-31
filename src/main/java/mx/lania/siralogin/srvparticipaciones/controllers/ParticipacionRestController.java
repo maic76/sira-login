@@ -2,6 +2,7 @@ package mx.lania.siralogin.srvparticipaciones.controllers;
 
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import mx.lania.siralogin.srvcatalogos.models.Convocatoria;
+import mx.lania.siralogin.srvcatalogos.models.ProgramaEducativo;
 import mx.lania.siralogin.srvcatalogos.models.RequisitoConvocatoria;
 import mx.lania.siralogin.srvcatalogos.models.service.ConvocatoriaService;
 import mx.lania.siralogin.srvparticipaciones.models.Participacion;
@@ -188,6 +189,16 @@ public class ParticipacionRestController {
         response.put("entregados",ent.get("entregados"));
         return  new ResponseEntity<Map<String,Object>>(response, HttpStatus.OK);
 
+    }
+
+    @GetMapping("/aspirantes")
+    public ResponseEntity<?> numAspirantes(){
+        Map<String,Object> response = new HashMap<>();
+        List<Aspirante> aspirantes = aspiranteService.findAll();
+        int numAspirantes = aspirantes.size();
+        response.put("mensaje","Exito al consultar los aspirantes ");
+        response.put("numAspirantes",numAspirantes);
+        return  new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);
     }
 
 

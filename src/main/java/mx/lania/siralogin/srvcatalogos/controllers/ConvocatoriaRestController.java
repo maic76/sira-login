@@ -31,8 +31,15 @@ public class ConvocatoriaRestController {
     IRequisitoService requisitoService;
 
     @GetMapping("/convocatorias")
-    public List<Convocatoria> index(){
-        return convocatoriaService.findAll();
+    public ResponseEntity<?>  index(){
+        Map<String,Object> response = new HashMap<>();
+        List<Convocatoria> convocatorias = convocatoriaService.findAll();
+        int numConv = convocatorias.size();
+        response.put("mensaje","Exito al consultar las convocatorias");
+        response.put("convocatorias",convocatorias);
+        response.put("numConv",numConv);
+        return  new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);
+
     }
 
     @PostMapping("/convocatorias/peducativos/{idProgEducativo}")
