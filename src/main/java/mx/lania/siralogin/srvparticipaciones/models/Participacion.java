@@ -37,6 +37,7 @@ public class Participacion implements Serializable {
 
     @OneToMany(mappedBy = "participacion", cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonIgnoreProperties( {"hibernateLazyInitializer","handler"})
+    @OrderBy(value="id asc")
     private List<ParticipacionRequisitoConvocatoria> participacionRequisitosConvocatoria = new ArrayList<>();
 
     @Temporal(TemporalType.DATE)

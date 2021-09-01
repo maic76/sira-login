@@ -53,4 +53,19 @@ public class ParticipacionService implements IParticipacionService{
         result.put("total",total);
         return result;
     }
+
+    public Map<String,Integer> calcularValidados(Participacion participacion){
+        int validados =0;
+        int total = 0;
+        Map<String,Integer> result = new HashMap<>();
+        for (ParticipacionRequisitoConvocatoria prc : participacion.getParticipacionRequisitosConvocatoria()) {
+            if(prc.isValidado()){
+                validados++;
+            }
+            total++;
+        }
+        result.put("validados",validados);
+        result.put("total",total);
+        return result;
+    }
 }

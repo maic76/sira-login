@@ -24,11 +24,13 @@ public class ParticipacionRequisitoConvocatoria implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="participacion_id")
     @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
+    @OrderBy(value="id asc")
     private Participacion participacion;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="requisitos_convocatorias_id")
     @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
+    @OrderBy(value="id asc")
     private RequisitoConvocatoria requisitoConvocatoria;
 
     private boolean entregado;

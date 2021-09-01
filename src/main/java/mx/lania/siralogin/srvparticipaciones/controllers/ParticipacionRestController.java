@@ -71,7 +71,7 @@ public class ParticipacionRestController {
             participacion.setConvocatoria(convocatoria);
             participacion.setAspirante(aspirante);
             participacion.setActiva(true);
-            participacion.setEstatus("subir requisitos"); // subir requisitos o en validación
+            participacion.setEstatus("subir requisitos"); // subir requisitos , en validación, completada
             participacion.setFechaInscripcion(new Date());
             for (RequisitoConvocatoria rc : convocatoria.getRequisitoConvocatorias()) {
                 ParticipacionRequisitoConvocatoria prc = new ParticipacionRequisitoConvocatoria();
@@ -172,10 +172,12 @@ public class ParticipacionRestController {
         Map<String,Object> response = new HashMap<>();
         Participacion participacion = null;
         Map<String,Integer> ent = new HashMap<>();
+        Map<String,Integer> val = new HashMap<>();
 
         try{
             participacion = participacionService.findById(idParticipacion);
             ent = participacionService.calcularEntregados(participacion);
+            val = participacionService.calcularValidados(participacion);
 
         }catch (DataAccessException ex){
             response.put("mensaje", "Error al realizar consulta en la BD");
@@ -187,6 +189,7 @@ public class ParticipacionRestController {
         response.put("participacion",participacion);
         response.put("total", ent.get("total"));
         response.put("entregados",ent.get("entregados"));
+        response.put("validados",val.get("validados"));
         return  new ResponseEntity<Map<String,Object>>(response, HttpStatus.OK);
 
     }
@@ -201,6 +204,44 @@ public class ParticipacionRestController {
         return  new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);
     }
 
+    @PatchMapping("/{idParticipacion}/prc/{idPrc}")
+    public ResponseEntity<?> validarDocumento(@PathVariable Long idParticipacion, @PathVariable Long idPrc, @RequestParam("validado") boolean validado){
+        Map<String,Object> response = new HashMap<>();
+        Participacion participacion = null;
+        //Map<String,Integer> ent = new HashMap<>();
+        Map<String,Integer> val = new HashMap<>();
+        String mensajeCompletada= "";
+        try {
+            participacion = participacionService.findById(idParticipacion);
+            for (ParticipacionRequisitoConvocatoria prc : participacion.getParticipacionRequisitosConvocatoria()) {
+                if (prc.getId() == idPrc) {
+                    prc.setValidado(validado);
+                }
+            }
+        }catch (DataAccessException ex){
+            response.put("mensaje", "Error al realizar consulta en la BD");
+            response.put("error",ex.getMessage().concat(": ").concat(ex.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String,Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        participacionService.save(participacion);
+        //ent = participacionService.calcularEntregados(participacion);
+        val = participacionService.calcularValidados(participacion);
+
+        if(val.get("validados").equals(val.get("total"))){
+            participacion.setEstatus("completada"); // si estan todos validados, cambiar estatus a completada
+            mensajeCompletada= "se completó la participación";
+            participacionService.save(participacion);
+        }else{
+            participacion.setEstatus("en validación");
+            participacionService.save(participacion);
+        }
+
+        response.put("mensaje","Se validó el documento con éxito!");
+        response.put("participacion", participacion);
+        response.put("mensajeCompletada",mensajeCompletada);
+        return  new ResponseEntity<Map<String,Object>>(response, HttpStatus.CREATED);
+    }
 
 
 

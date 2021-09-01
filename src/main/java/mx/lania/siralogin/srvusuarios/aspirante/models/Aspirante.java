@@ -40,6 +40,7 @@ public class Aspirante implements Serializable {
 
     @JsonBackReference(value="participaciones")
     @OneToMany(mappedBy = "aspirante", cascade = CascadeType.ALL,orphanRemoval = true)
+    @OrderBy(value="id asc")
     private List<Participacion> participaciones = new ArrayList<>();
 
     public Long getId() {
