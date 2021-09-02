@@ -52,8 +52,16 @@ public class ParticipacionRestController {
         String userName = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Usuario usuario = usuarioService.getUsuarioByEmail(userName);
         Aspirante aspirante = usuario.getAspirante();
+        List<Participacion> participaciones = aspirante.getParticipaciones();
+        List<Participacion> partEnviadas = new ArrayList<Participacion>();
+        for (Participacion part : participaciones)
+        {
+            part.getConvocatoria();
+            partEnviadas.add(part);
+        }
 
-        return aspirante.getParticipaciones();
+
+        return partEnviadas;
     }
 
     @PostMapping("/convocatorias/{idConvocatoria}")
