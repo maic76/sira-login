@@ -33,7 +33,7 @@ import java.nio.file.Paths;
 import java.util.*;
 
 @RestController
-@RequestMapping("/api/participaciones")
+@RequestMapping("/sira/participaciones")
 public class ParticipacionRestController {
 
     @Autowired

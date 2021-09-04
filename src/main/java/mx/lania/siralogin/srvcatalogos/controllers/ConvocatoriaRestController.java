@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/sira/catalogos")
 public class ConvocatoriaRestController {
 
     @Autowired

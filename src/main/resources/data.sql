@@ -25,3 +25,7 @@ INSERT INTO requisitos_convocatorias (id,convocatoria_id,requisito_id,cantidad,i
 (nextval('req_convocatorias_sequence'), 2,3,1,true,'ambos'),
 (nextval('req_convocatorias_sequence'), 3,1,1,true,'copia'),
 (nextval('req_convocatorias_sequence'), 3,2,1,true,'copia');
+
+INSERT INTO usuario (id,email,enabled,locked,password,usuario_rol) VALUES
+(nextval('usuario_sequence'),'admin@lania.edu.mx',true,false,'$2a$12$NE5kYvRIRun1FENK5RnQc.ltHFFEkhGDncqs825ffsTpXYaPtRI1u','ADMIN');
+
