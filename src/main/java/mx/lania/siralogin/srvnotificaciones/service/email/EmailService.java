@@ -2,6 +2,7 @@ package mx.lania.siralogin.srvnotificaciones.service.email;
 
 import lombok.AllArgsConstructor;
 import mx.lania.siralogin.srvcatalogos.models.Convocatoria;
+import mx.lania.siralogin.srvcatalogos.models.RequisitoConvocatoria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -40,6 +41,7 @@ public class EmailService implements EmailSender {
 
     @Override
     public String buildEmailRegistration(String name, String link) {
+
             return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +
                     "\n" +
                     "<span style=\"display:none;font-size:1px;color:#fff;max-height:0\"></span>\n" +
@@ -111,6 +113,11 @@ public class EmailService implements EmailSender {
 
     @Override
     public String buildEmailRegistroConvocatoria(String name, Convocatoria convocatoria) {
+        StringBuilder requisitos = new StringBuilder();
+        for (RequisitoConvocatoria rc : convocatoria.getRequisitoConvocatorias()) {
+            requisitos.append("<li>").append( rc.getRequisito().getNombre()).append("</li>");
+        }
+
         return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +
                 "\n" +
                 "<span style=\"display:none;font-size:1px;color:#fff;max-height:0\"></span>\n" +
@@ -128,7 +135,7 @@ public class EmailService implements EmailSender {
                 "                  \n" +
                 "                    </td>\n" +
                 "                    <td style=\"font-size:28px;line-height:1.315789474;Margin-top:4px;padding-left:10px\">\n" +
-                "                      <span style=\"font-family:Helvetica,Arial,sans-serif;font-weight:700;color:#ffffff;text-decoration:none;vertical-align:top;display:inline-block\">Sistema de Registro de Aspirantes LANIA - Confirma tu correo</span>\n" +
+                "                      <span style=\"font-family:Helvetica,Arial,sans-serif;font-weight:700;color:#ffffff;text-decoration:none;vertical-align:top;display:inline-block\">Sistema de Registro de Aspirantes LANIA - Registro de convocatoria exitoso</span>\n" +
                 "                    </td>\n" +
                 "                  </tr>\n" +
                 "                </tbody></table>\n" +
@@ -166,7 +173,7 @@ public class EmailService implements EmailSender {
                 "      <td width=\"10\" valign=\"middle\"><br></td>\n" +
                 "      <td style=\"font-family:Helvetica,Arial,sans-serif;font-size:19px;line-height:1.315789474;max-width:560px\">\n" +
                 "        \n" +
-                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hola " + name + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> Tu participación en la convocatoria de ... ha sido registrada. Estos son los requisitos que deberás subir al sistema en el apartado de Mis convocatorias  </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <a href=\"http://localhost:8080 \">Ingresar a SIRA</a> </p></blockquote>\n En cuanto completes tu documentación, ésta será revisada por el personal de LANIA para su validación. Muchas gracias. <p>Hasta pronto.</p>" +
+                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hola " + name + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> Tu participación en la convocatoria de  "+ convocatoria.getNombre() + " ha sido registrada. Estos son los requisitos que deberás subir al sistema en el apartado de Mis convocatorias  </p><br><p><ul>"+requisitos.toString() +"</ul></p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <a href=\"http://localhost:8080\">Ingresar a SIRA</a> </p></blockquote>\n En cuanto completes tu documentación, ésta será revisada por el personal de LANIA para su validación. Muchas gracias. <p>Hasta pronto.</p>" +
                 "        \n" +
                 "      </td>\n" +
                 "      <td width=\"10\" valign=\"middle\"><br></td>\n" +
